@@ -2,6 +2,9 @@ import express from "express";
 import {nanoid} from "nanoid";
 import dotenv from "dotenv";
 import connectDB from "./src/config/mongo.config.js";
+import urlSchema from "./src/models/short_url.model.js";
+import short_url from "./src/routes/short_url.route.js";
+import { redirectFromShortUrl } from "./src/controller/short_url.controller.js";
 
 dotenv.config("./.env");
 
@@ -16,11 +19,9 @@ app.use(express.urlencoded({ extended: true }));
 // Middleware to handle CORS
 
 
-app.post("/api/create", (req, res) => {
-  const  {url}  = req.body;
-  console.log(url);
-  res.send(nanoid(7));
-});
+app.use("/api/create",short_url);
+
+app.get("/:id",redirectFromShortUrl);
 
 app.listen(3000, () => {
   connectDB();
