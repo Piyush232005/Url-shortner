@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { createShortUrl } from "../api/shortUrl.api";
 // import { createShortUrl } from "../api/shortUrl.api";
 // import { useSelector } from "react-redux";
 // import { QueryClient } from "@tanstack/react-query";
@@ -15,10 +16,10 @@ const UrlForm = () => {
   //   const {isAuthenticated} = useSelector((state) => state.auth)
 
     const handleSubmit = async () => {
-      const {data} = await axios.post("http://localhost:3000/api/create",{url})
-      setShortUrl(data)
-
+      const shortUrl = await createShortUrl(url)
+      setShortUrl(shortUrl)
     }
+     
 
     const handleCopy = () => {
       navigator.clipboard.writeText(shortUrl);
